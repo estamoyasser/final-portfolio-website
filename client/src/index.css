@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=League+Spartan:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --page-bg:
+    radial-gradient(circle at top, rgba(255,255,255,0.045), transparent 28%),
+    linear-gradient(135deg, #3f4044 0%, #2a2b2f 34%, #15161a 72%, #0d0e10 100%);
+  --text-main: #f2f2ef;
+  --text-muted: rgba(255, 255, 255, 0.68);
+  --text-soft: rgba(255, 255, 255, 0.4);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-soft: rgba(255, 255, 255, 0.06);
+  --surface-strong: rgba(255, 255, 255, 0.1);
+  --nav-bg: rgba(0, 0, 0, 0.12);
+  --mobile-nav-bg: rgba(18, 19, 22, 0.95);
+  --panel-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+  --hero-image-bg: #101114;
+  --button-solid-bg: #f2f2ef;
+  --button-solid-text: #101114;
+}
+
+body.light-theme {
+  --page-bg:
+    radial-gradient(circle at top, rgba(0,0,0,0.035), transparent 28%),
+    linear-gradient(135deg, #f1f3f6 0%, #e7ebf0 40%, #dfe4ea 100%);
+  --text-main: #16181c;
+  --text-muted: rgba(22, 24, 28, 0.72);
+  --text-soft: rgba(22, 24, 28, 0.45);
+  --line: rgba(22, 24, 28, 0.1);
+  --line-strong: rgba(22, 24, 28, 0.18);
+  --surface: rgba(255, 255, 255, 0.58);
+  --surface-soft: rgba(255, 255, 255, 0.78);
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --nav-bg: rgba(255, 255, 255, 0.62);
+  --mobile-nav-bg: rgba(241, 243, 246, 0.96);
+  --panel-shadow: 0 18px 40px rgba(20, 25, 34, 0.08);
+  --hero-image-bg: #d9dee5;
+  --button-solid-bg: #16181c;
+  --button-solid-text: #f5f7fa;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--page-bg);
+  color: var(--text-main);
+  overflow-x: hidden;
+  transition: background 0.45s ease, color 0.45s ease;
+}
+
+h1,
+h2,
+h3,
+.display-font {
+  font-family: 'League Spartan', 'Inter', sans-serif;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+body.light-theme ::selection {
+  background: rgba(22, 24, 28, 0.14);
+  color: #111111;
+}
+
+.themed-panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.themed-soft {
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.projects-swiper {
+  overflow: visible !important;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.projects-swiper .swiper-wrapper {
+  align-items: center;
+}
+
+.projects-swiper .swiper-slide {
+  opacity: 0.42;
+  filter: blur(1.6px) grayscale(0.35);
+  transform: scale(0.88);
+  transition:
+    opacity 0.55s ease,
+    filter 0.55s ease,
+    transform 0.55s ease;
+  will-change: transform, filter, opacity;
+}
+
+.projects-swiper .swiper-slide-active {
+  opacity: 1;
+  filter: blur(0) grayscale(0);
+  transform: scale(1);
+  z-index: 3;
+}
+
+.projects-swiper .swiper-slide-prev,
+.projects-swiper .swiper-slide-next {
+  opacity: 0.58;
+  filter: blur(1.2px) grayscale(0.2);
+}
+
+.projects-swiper .swiper-slide-shadow-left,
+.projects-swiper .swiper-slide-shadow-right {
+  display: none !important;
+}
+
+.project-slide {
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+}
+
+.project-slide::after {
+  content: '';
+  position: absolute;
+  inset: auto 10% -18px 10%;
+  height: 42px;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 72%);
+  filter: blur(18px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.projects-stage {
+  position: relative;
+}
+
+.projects-stage::before {
+  content: '';
+  position: absolute;
+  inset: -40px -20px;
+  background:
+    radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.05), transparent 24%),
+    radial-gradient(circle at 50% 55%, rgba(255, 255, 255, 0.03), transparent 38%);
+  pointer-events: none;
+}
+
+body.light-theme .projects-stage::before {
+  background:
+    radial-gradient(circle at 50% 25%, rgba(0, 0, 0, 0.035), transparent 24%),
+    radial-gradient(circle at 50% 55%, rgba(0, 0, 0, 0.02), transparent 38%);
+}
+
+body.light-theme .project-slide::after {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0) 72%);
+}
+
+@media (max-width: 1024px) {
+  .projects-swiper .swiper-slide {
+    opacity: 0.58;
+    filter: blur(1px) grayscale(0.22);
+    transform: scale(0.92);
+  }
+}
+
+@media (max-width: 767px) {
+  .projects-swiper .swiper-slide {
+    opacity: 0.78;
+    filter: blur(0.7px) grayscale(0.15);
+    transform: scale(0.96);
+  }
+
+  .projects-swiper .swiper-slide-active {
+    transform: scale(1);
+  }
+
+  .project-slide::after {
+    inset: auto 14% -12px 14%;
+    height: 28px;
+    filter: blur(12px);
+  }
+}
+
+body.light-theme #projects .projects-swiper .swiper-slide {
+  filter: blur(1.3px) grayscale(0.15);
+}
+
+body.light-theme #projects .projects-swiper .swiper-slide-active {
+  filter: blur(0) grayscale(0);
+}
+
+body.light-theme #projects .pointer-events-none.absolute.inset-0 {
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.035), transparent 45%) !important;
+}
+
+body.light-theme #projects p.text-white\/38,
+body.light-theme #projects p.text-white\/34,
+body.light-theme #projects p.text-white\/60 {
+  color: rgba(22, 24, 28, 0.68) !important;
+}
+
+body.light-theme #projects h2.text-white,
+body.light-theme #projects h3.text-white {
+  color: #16181c !important;
+}
+
+body.light-theme #projects a.border-white\/10 {
+  border-color: rgba(22, 24, 28, 0.12) !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  color: #16181c !important;
+}
+
+body.light-theme #projects a.border-white\/10:hover {
+  background: #16181c !important;
+  color: #f5f7fa !important;
+}
+
+body.light-theme #projects button.bg-white,
+body.light-theme #projects button.bg-white\/20 {
+  background: rgba(22, 24, 28, 0.22) !important;
+}
+
+body.light-theme #projects button.bg-white[aria-label],
+body.light-theme #projects button.bg-white\/20[aria-label] {
+  background: rgba(22, 24, 28, 0.22) !important;
+}
+
+body.light-theme #projects .h-2\.5.w-2\.5.bg-white {
+  background: #16181c !important;
+}
+
+body.light-theme #projects .h-2\.5.w-2\.5.bg-white\/20 {
+  background: rgba(22, 24, 28, 0.22) !important;
+}
+
+body.light-theme #projects .project-slide::after {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0) 72%) !important;
+}
+
+#home img {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+#home img {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.hero-frame {
+  border-radius: 1.4rem;
+}
+
+.hero-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.hero-shine {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 255, 255, 0.14) 48%,
+    rgba(255, 255, 255, 0.06) 52%,
+    transparent 65%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+}
+
+.hero-frame:hover .hero-shine {
+  animation: heroShineMove 1.4s ease forwards;
+}
+
+@keyframes heroShineMove {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* Premium skills hover polish */
+#skills .themed-panel {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
+}
+
+#skills .themed-panel:hover {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+body.light-theme #skills .themed-panel:hover {
+  box-shadow: 0 20px 45px rgba(20, 25, 34, 0.1);
+}
+
