@@ -15,8 +15,9 @@ export default function App() {
   }, [isLightMode])
 
   return (
-    <div className="min-h-screen bg-(--page-bg) text-(--text-main) transition-colors duration-500">
+    <div className="relative min-h-screen overflow-x-hidden bg-(--page-bg) pt-19 text-(--text-main) transition-colors duration-500 md:pt-20">
       <Navbar isLightMode={isLightMode} setIsLightMode={setIsLightMode} />
+
       <main className="overflow-x-hidden">
         <Hero />
         <About />
@@ -24,6 +25,7 @@ export default function App() {
         <Projects />
         <Contact />
       </main>
+
       <Footer />
     </div>
   )

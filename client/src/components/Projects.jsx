@@ -74,7 +74,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="scroll-mt-[18vh] mx-auto max-w-360 px-6 py-[60px] sm:py-[70px] lg:py-[80px] xl:px-16"
+      className="scroll-mt-[18vh] mx-auto max-w-360 px-6 py-15 sm:py-17.5 lg:py-20 xl:px-16"
     >
       <div className="mb-12 sm:mb-14">
         <p className="text-[11px] uppercase tracking-[0.38em] text-white/38 sm:text-xs">

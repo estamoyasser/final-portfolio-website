@@ -9,17 +9,20 @@ const links = [
   { name: 'Contact', id: 'contact' },
 ]
 
-const sectionConfig = {
-  home: { mode: 'top', extra: 0 },
-  about: { mode: 'center', extra: -40 },
-  skills: { mode: 'center', extra: -20 },
-  projects: { mode: 'center', extra: -10 },
-  contact: { mode: 'footer', extra: 40 },
-}
-
 export default function Navbar({ isLightMode, setIsLightMode }) {
   const [open, setOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     const sections = links.map((link) => document.getElementById(link.id)).filter(Boolean)
@@ -36,7 +39,7 @@ export default function Navbar({ isLightMode, setIsLightMode }) {
       },
       {
         root: null,
-        rootMargin: '-18% 0px -35% 0px',
+        rootMargin: '-22% 0px -48% 0px',
         threshold: [0.2, 0.35, 0.5, 0.7],
       }
     )
@@ -45,28 +48,35 @@ export default function Navbar({ isLightMode, setIsLightMode }) {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
   const scrollToSection = (id) => {
     const element = document.getElementById(id)
     if (!element) return
 
-    const config = sectionConfig[id] || { mode: 'center', extra: 0 }
     const rect = element.getBoundingClientRect()
     const absoluteTop = window.scrollY + rect.top
     const sectionHeight = rect.height
     const viewportHeight = window.innerHeight
 
-    let targetTop = absoluteTop
+    let targetTop = absoluteTop + sectionHeight / 2 - viewportHeight / 2
 
-    if (config.mode === 'top') {
-      targetTop = absoluteTop - 70
+    if (id === 'home') {
+      targetTop = absoluteTop - 80
     }
 
-    if (config.mode === 'center') {
-      targetTop = absoluteTop + sectionHeight / 2 - viewportHeight / 2 + config.extra
-    }
-
-    if (config.mode === 'footer') {
-      targetTop = absoluteTop + sectionHeight - viewportHeight + config.extra
+    if (id === 'contact') {
+      targetTop = absoluteTop + sectionHeight - viewportHeight + 40
     }
 
     const maxScroll = document.documentElement.scrollHeight - viewportHeight
@@ -81,19 +91,84 @@ export default function Navbar({ isLightMode, setIsLightMode }) {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-(--line) bg-(--nav-bg) backdrop-blur-xl transition-colors duration-500">
-      <nav className="flex w-full items-center justify-between px-4 py-3 sm:px-6 md:px-8 lg:px-12 2xl:px-20">
-        <button
-          type="button"
-          onClick={() => scrollToSection('home')}
-          onDoubleClick={() => setIsLightMode((prev) => !prev)}
-          title="Double-click to toggle light mode"
-          className="display-font cursor-pointer select-none text-base font-semibold tracking-[0.08em] text-(--text-main) sm:text-lg md:text-xl"
-        >
-          YE
-        </button>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-999 w-full border-b transition-all duration-300 ${
+          scrolled
+            ? 'border-(--line) bg-(--nav-bg)/92 shadow-[0_12px_30px_rgba(0,0,0,0.18)] backdrop-blur-xl'
+            : 'border-transparent bg-(--nav-bg)/76 backdrop-blur-xl'
+        }`}
+      >
+        <nav className="w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-32">
+          <div className="flex w-full items-center justify-between py-4">
+            <button
+              type="button"
+              onClick={() => scrollToSection('home')}
+              onDoubleClick={() => setIsLightMode((prev) => !prev)}
+              title="Double-click to toggle light mode"
+              className="display-font cursor-pointer select-none text-base font-semibold tracking-[-0.04em] text-(--text-main) sm:text-lg md:text-xl"
+            >
+              YE
+            </button>
 
-        <div className="hidden items-center gap-1 lg:flex">
+            <div className="hidden items-center gap-1 lg:flex">
+              {links.map((link) => {
+                const isActive = activeSection === link.id
+
+                return (
+                  <button
+                    key={link.name}
+                    type="button"
+                    onClick={() => scrollToSection(link.id)}
+                    className={`nav-link-text relative px-3 py-2 transition xl:px-4 ${
+                      isActive
+                        ? 'text-(--text-main)'
+                        : 'text-(--text-muted) hover:text-(--text-main)'
+                    }`}
+                  >
+                    {link.name}
+                    <span
+                      className={`absolute bottom-0 left-3 h-px bg-(--accent) transition-all duration-300 xl:left-4 ${
+                        isActive
+                          ? 'w-[calc(100%-1.5rem)] opacity-100 xl:w-[calc(100%-2rem)]'
+                          : 'w-0 opacity-0'
+                      }`}
+                    />
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="flex items-center gap-2 lg:hidden">
+              <button
+                type="button"
+                onClick={() => setOpen((prev) => !prev)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-(--line) bg-(--surface-soft) text-xl text-(--text-main) transition hover:bg-(--surface-strong)"
+                aria-label="Toggle menu"
+                aria-expanded={open}
+              >
+                {open ? <HiX /> : <HiMenu />}
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <div
+        className={`fixed inset-0 z-998 bg-black/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        onClick={() => setOpen(false)}
+      />
+
+      <div
+        className={`fixed inset-x-0 top-19.5 z-999 mx-4 origin-top rounded-2xl border border-(--line) bg-(--mobile-nav-bg)/95 p-3 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-300 lg:hidden ${
+          open
+            ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
+            : 'pointer-events-none -translate-y-3 scale-[0.98] opacity-0'
+        }`}
+      >
+        <div className="flex flex-col gap-2">
           {links.map((link) => {
             const isActive = activeSection === link.id
 
@@ -102,65 +177,18 @@ export default function Navbar({ isLightMode, setIsLightMode }) {
                 key={link.name}
                 type="button"
                 onClick={() => scrollToSection(link.id)}
-                className={`relative px-3 py-2 text-[10px] font-medium uppercase tracking-[0.22em] transition xl:px-4 xl:text-[11px] ${
+                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${
                   isActive
-                    ? 'text-(--text-main)'
-                    : 'text-(--text-muted) hover:text-(--text-main)'
+                    ? 'border-(--line-strong) bg-(--surface-strong) text-(--text-main)'
+                    : 'border-(--line) bg-(--surface-soft) text-(--text-muted) hover:bg-(--surface-strong) hover:text-(--text-main)'
                 }`}
               >
                 {link.name}
-                <span
-                  className={`absolute bottom-0 left-3 h-px bg-(--text-main) transition-all duration-300 xl:left-4 ${
-                    isActive ? 'w-[calc(100%-1.5rem)] xl:w-[calc(100%-2rem)] opacity-100' : 'w-0 opacity-0'
-                  }`}
-                />
               </button>
             )
           })}
         </div>
-
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          className="inline-flex rounded-full border border-(--line) bg-(--surface-soft) p-2 text-xl text-(--text-main) transition lg:hidden"
-          aria-label="Toggle menu"
-        >
-          {open ? <HiX /> : <HiMenu />}
-        </button>
-      </nav>
-
-      {open && (
-        <div className="border-t border-(--line) bg-(--mobile-nav-bg) px-4 py-4 sm:px-6 md:px-8 lg:hidden">
-          <div className="flex w-full flex-col gap-2">
-            {links.map((link) => {
-              const isActive = activeSection === link.id
-
-              return (
-                <button
-                  key={link.name}
-                  type="button"
-                  onClick={() => scrollToSection(link.id)}
-                  className={`border px-4 py-3 text-left text-sm font-medium transition ${
-                    isActive
-                      ? 'border-(--line-strong) bg-(--surface-soft) text-(--text-main)'
-                      : 'border-(--line) bg-(--surface-soft) text-(--text-muted) hover:text-(--text-main)'
-                  }`}
-                >
-                  {link.name}
-                </button>
-              )
-            })}
-
-            <button
-              type="button"
-              onClick={() => setIsLightMode((prev) => !prev)}
-              className="mt-2 border border-(--line) bg-(--surface-soft) px-4 py-3 text-left text-sm font-medium text-(--text-main)"
-            >
-              Switch to {isLightMode ? 'dark' : 'light'} mode
-            </button>
-          </div>
-        </div>
-      )}
-    </header>
+      </div>
+    </>
   )
 }
