@@ -4,14 +4,12 @@
 :root {
   --nav-height: 76px;
 
-  /* Industrial Blue palette */
   --dust-grey: #dcdcdd;
   --silver: #c5c3c6;
   --iron-grey: #46494c;
   --blue-slate: #4c5c68;
   --bondi-blue: #1985a1;
 
-  /* Dark theme */
   --page-bg:
     radial-gradient(circle at 12% 10%, rgba(25, 133, 161, 0.14), transparent 22%),
     radial-gradient(circle at 88% 18%, rgba(76, 92, 104, 0.16), transparent 24%),
@@ -94,7 +92,6 @@ body {
   transition: background 0.45s ease, color 0.45s ease;
 }
 
-/* Global boxed grid background */
 body::before {
   content: '';
   position: fixed;
@@ -269,7 +266,6 @@ body.light-theme ::selection {
   background: var(--surface-soft);
 }
 
-/* Projects */
 .projects-swiper {
   overflow: visible !important;
   padding-top: 8px;
@@ -394,7 +390,6 @@ body.light-theme #projects .h-2\.5.w-2\.5.bg-white\/20 {
   background: rgba(31, 42, 49, 0.22) !important;
 }
 
-/* Hero image */
 #home img {
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -455,7 +450,6 @@ body.light-theme #projects .h-2\.5.w-2\.5.bg-white\/20 {
   }
 }
 
-/* Hero typed line */
 .hero-type-inline {
   display: inline-flex;
   align-items: center;
@@ -482,7 +476,7 @@ body.light-theme #projects .h-2\.5.w-2\.5.bg-white\/20 {
   align-items: center;
   min-height: 1.25em;
   font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: 1.2rem; /* requested size */
+  font-size: 1.2rem; 
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -659,7 +653,7 @@ body.light-theme #contact .themed-panel:hover {
   box-shadow: 0 0 0 1px rgba(25, 133, 161, 0.08), 0 10px 30px rgba(25, 133, 161, 0.12);
 }
 
-/* Skills panel polish */
+
 #skills .themed-panel {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),

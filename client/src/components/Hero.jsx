@@ -61,7 +61,7 @@ function TypingRole() {
 
   return (
     <div className="hero-type-inline">
-      <span className="hero-inline-label">I&apos;M A</span>
+      <span className="hero-inline-label">I'M A</span>
 
       <span className={`hero-inline-role ${isComplete ? 'glow-active' : ''}`}>
         {displayedText}

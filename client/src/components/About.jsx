@@ -68,7 +68,7 @@ export default function About() {
           </div>
 
           <motion.p variants={paragraph} className="body-copy relative z-10">
-            I&apos;m Yasser P. Estamo, a Full Stack JavaScript Developer focused on building responsive,
+            I'm Yasser P. Estamo, a Full Stack JavaScript Developer focused on building responsive,
             user-friendly web applications using React, Node.js, Express, and MongoDB.
           </motion.p>
 

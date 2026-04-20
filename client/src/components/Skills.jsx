@@ -152,7 +152,6 @@ export default function Skills() {
             transition={{ duration: 0.25 }}
             className="group themed-panel relative overflow-hidden p-5"
           >
-            {/* wave background */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <motion.div
                 className="absolute -left-[30%] top-[58%] h-28 w-[160%] rounded-[100%] bg-[radial-gradient(ellipse_at_center,rgba(25,133,161,0.18)_0%,rgba(25,133,161,0.08)_38%,transparent_72%)] blur-xl"
